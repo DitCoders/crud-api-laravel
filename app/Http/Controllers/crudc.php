@@ -8,18 +8,14 @@ use Illuminate\Support\Facades\Validator;
 
 class crudc extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $data = crudm::get();
-        return response()->json($data);
+        $data = crudm::all();
+        return response()->json([
+            'message' => 'sukses ambil semua data',
+            'data' => $data
+        ], 200);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
@@ -37,12 +33,8 @@ class crudc extends Controller
         ]);
         return response()->json([
             'message' => 'Berhasil menambahkan data'
-        ]);
+        ], 200);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
@@ -61,12 +53,8 @@ class crudc extends Controller
         ]);
         return response()->json([
             'message' => 'Data berhasil diubah'
-        ]);
+        ], 200);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $data = crudm::find($id);
