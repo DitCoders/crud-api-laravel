@@ -19,7 +19,6 @@ class crudc extends Controller
     public function store(Request $request)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|string|max:20',
             'info' => 'required|string',
         ]);
         if ($validasi->fails()) {
@@ -28,7 +27,7 @@ class crudc extends Controller
             ]);
         }
         $data = crudm::create([
-            'name' => $request->name,
+            'name' => $request->user()->name,
             'info' => $request->info
         ]);
         return response()->json([
@@ -38,7 +37,6 @@ class crudc extends Controller
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
-            'name' => 'required|string|max:20',
             'info' => 'required|string'
         ]);
         if ($validasi->fails()) {
@@ -48,7 +46,7 @@ class crudc extends Controller
         }
         $data = crudm::find($id);
         $data->update([
-            'name' => $request->name,
+            'name' => $request->user()->name,
             'info'  => $request->info
         ]);
         return response()->json([
@@ -59,5 +57,8 @@ class crudc extends Controller
     {
         $data = crudm::find($id);
         $data->delete();
+        return response()->json([
+            'message' => 'berhasil di hapus'
+        ]);
     }
 }
